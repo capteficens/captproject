@@ -26,7 +26,7 @@ def authenticate():
             flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
 
-        # ✅ Save new or refreshed token
+        #  Save new or refreshed token
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
 
@@ -88,27 +88,27 @@ def save_and_upload_to_s3(data, date_str):
     # Save locally
     with open(filepath, 'w') as f:
         json.dump(data, f, indent=2)
-    print(f"✅ Saved {len(data)} emails to {filepath}")
+    print(f" Saved {len(data)} emails to {filepath}")
 
     # Upload to S3
     s3 = boto3.client('s3')
     try:
         s3.upload_file(filepath, S3_BUCKET, f"capt/{filename}")
-        print(f"☁️ Uploaded to S3: s3://{S3_BUCKET}/capt/{filename}")
+        print(f" Uploaded to S3: s3://{S3_BUCKET}/capt/{filename}")
     except Exception as e:
-        print(f"❌ S3 Upload failed: {e}")
+        print(f" S3 Upload failed: {e}")
 
 def main():
-    print("🔐 Authenticating...")
+    print(" Authenticating...")
     service = authenticate()
-    print("📬 Fetching new emails...")
+    print("Fetching new emails...")
     new_emails = fetch_new_emails(service)
 
     if new_emails:
         date_str = datetime.now().strftime('%Y-%m-%d')
         save_and_upload_to_s3(new_emails, date_str)
     else:
-        print("📭 No new emails found in the past 24 hours.")
+        print(" No new emails found in the past 24 hours.")
 
 if __name__ == "__main__":
     main()
