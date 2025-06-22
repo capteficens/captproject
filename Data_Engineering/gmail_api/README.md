@@ -12,7 +12,7 @@ It supports:
 ## 📁 Folder Contents
 
 gmail_api/
-├── auth.py                  # Auth helper: login, token handling
+├── auth.py                  # Auth helper: login, token handling\n
 ├── gmail_fetcher.py         # Fetches and cleans emails
 ├── Tester.py                # Local test runner using the modules
 ├── credentials.json         # Google OAuth client secret (ignored)
