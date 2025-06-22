@@ -39,10 +39,12 @@ gmail_api/
 Exports:
 
     fetch_user_emails(creds, since_datetime, until_datetime=None)
+    upload_emails_to_s3(data, bucket_name, key_prefix="capt/")
 
 - Accepts a Google Credentials object and a datetime range
 - Returns a list of parsed Gmail messages with:
   - subject, from, snippet, thread_id, full body, timestamp
+- Optionally uploads parsed emails to an S3 bucket
 
 ---
 
@@ -50,21 +52,21 @@ Exports:
 
 Exports:
 
-    authenticate_interactively()
-    save_credentials(creds)
-    credentials_from_token_file(token_path)
+    authenticate_user_interactively()
+    load_user_credentials(user_email)
 
-Used for local/manual login with Gmail via browser (development/testing only).  
-Production login is expected to be handled by the backend team.
+- Handles per-user Gmail OAuth and token refresh
+- Stores tokens securely as: tokens/token_<email>.json
 
 ---
 
 ### Tester.py
 
 A sample standalone script to:
-- Authenticate via browser
+- Authenticate a new user or load an existing one
 - Fetch emails from the past 24 hours
-- Save them to emails_test_output.json
+- Save them to emails_test_output_<email>.json
+- Upload them to S3 for downstream use
 
 Usage:
 
@@ -73,7 +75,7 @@ Usage:
 
 ---
 
-## 🧪 Sample Output (emails_test_output.json)
+## 🧪 Sample Output (emails_test_output_<email>.json)
 
 [
   {
@@ -100,6 +102,7 @@ Required packages:
 - google-auth
 - google-auth-oauthlib
 - beautifulsoup4
+- boto3
 
 ---
 

@@ -1,7 +1,10 @@
 import base64
+import json
+import tempfile
 from bs4 import BeautifulSoup
 from datetime import datetime
 from googleapiclient.discovery import build
+import boto3
 
 def extract_body(payload):
     parts = payload.get("parts")
@@ -56,3 +59,25 @@ def fetch_user_emails(creds, since_datetime=None, until_datetime=None):
         })
 
     return emails
+
+def upload_emails_to_s3(data, bucket_name):
+    """
+    Saves the email data to a temporary .json file and uploads it to S3.
+    
+    :param data: List of emails (from fetch_user_emails)
+    :param bucket_name: Name of the S3 bucket
+    :param key_prefix: S3 key prefix/folder (default: "capt/")
+    :return: Full S3 URI (s3://bucket/prefix/file.json)
+    """
+    timestamp = datetime.utcnow().strftime("%Y-%m-%dT%H-%M-%S")
+    filename = f"emails_{timestamp}.json"
+    s3_key = f"capt/{filename}"
+
+    with tempfile.NamedTemporaryFile(mode='w+', suffix='.json', delete=False) as tmp:
+        json.dump(data, tmp, indent=2)
+        tmp_path = tmp.name
+
+    s3 = boto3.client("s3")
+    s3.upload_file(tmp_path, bucket_name, s3_key)
+
+    return f"s3://{bucket_name}/{s3_key}"

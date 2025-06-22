@@ -1,9 +1,19 @@
 Data_Engineering/gmail_api/credentials.json
 Data_Engineering/gmail_api/token.json
-Data_Engineering/gmail_api/emails_test_output.json
+Data_Engineering/gmail_api/tokens/
+Data_Engineering/gmail_api/token_*.json
+Data_Engineering/gmail_api/emails_test_output*.json
 
 # === Ignore Python cache ===
 Data_Engineering/gmail_api/__pycache__/
 Data_Engineering/gmail_api/*.pyc
 Data_Engineering/gmail_api/*.pyo
 Data_Engineering/gmail_api/*.pyd
+
+# === PYTHON ENVIRONMENT ===
+.venv/
+venv/
+.env
+
+# === EDITOR / SYSTEM ===
+.vscode/
