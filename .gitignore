@@ -1,7 +1,7 @@
 Data_Engineering/gmail_api/credentials.json
-Data_Engineering/gmail_api/token.json
-Data_Engineering/gmail_api/tokens/
-Data_Engineering/gmail_api/token_*.json
+Data_Engineering/gmail_api/tokens.json
+Data_Engineering/gmail_api/outputs/
+Data_Engineering/gmail_api/outputs/*.json
 Data_Engineering/gmail_api/emails_test_output*.json
 
 # === Ignore Python cache ===
